@@ -5,6 +5,6 @@ ICI LA PAGE HOME
 
 <?php
 $content = ob_get_clean();
-$titre = "Home";
+$title = "Home";
 require "template-home.php";
 ?>
