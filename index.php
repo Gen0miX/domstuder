@@ -1,7 +1,11 @@
 <?php
+session_start();
 
 define("URL", str_replace("index.php", "", (isset($_SERVER['HTTPS']) ? "https" : "http") .
     "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]"));
+
+require_once "controllers/admin/LoginController.controller.php";
+$loginController = new LoginController;
 
 try {
     if (empty($_GET['page'])) {
@@ -13,7 +17,25 @@ try {
                 require "views/main/home.view.php";
                 break;
             case "admin":
-                require "views/admin/login.view.php";
+                if (isset($_SESSION['Username'])) {
+                    if (empty($url[1])) {
+                        require "views/admin/controlPanel.view.php";
+                    } else if ($url[1] === "cp") {
+                        require "views/admin/controlPanel.view.php";
+                    } else if ($url[1] === "dc") {
+                        $loginController->disconnect();
+                    } else {
+                        throw new Exception("La page n'existe pas");
+                    }
+                } else {
+                    if (empty($url[1])) {
+                        require "views/admin/login.view.php";
+                    } else if ($url[1] === "lv") {
+                        $loginController->loginValidate();
+                    } else {
+                        throw new Exception("La page n'existe pas");
+                    }
+                }
                 break;
             default:
                 throw new Exception("La page n'existe pas !");

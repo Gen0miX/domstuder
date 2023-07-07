@@ -1,27 +1,28 @@
 <?php
+$pass = "Alcoyotte6210";
 ob_start() ?>
 
 
 <div class="main-container center">
     <img src="<?= URL ?>public/images/logo_rond.png" alt="Logo Domstuder">
 
-    <div class="form-container">
+    <form method="POST" action="<?= URL ?>admin/lv" enctype="multipart/form-data" class="form-container">
         <div class="input">
             <span class="material-symbols-outlined icon">
-                account_circle
+                person
             </span>
             <input class="login" type="text" placeholder="Nom d'utilisateur" name="uname" required>
         </div>
 
         <div class="input">
             <span class="material-symbols-outlined icon">
-                key
+                vpn_key
             </span>
             <input class="login" type="password" placeholder="Mot de passe" name="psw" required>
         </div>
 
-        <button type="submit" class="btn-login">Login</button>
-    </div>
+        <button type="submit" class="btn-login" href>Login</button>
+    </form>
 
 </div>
 
