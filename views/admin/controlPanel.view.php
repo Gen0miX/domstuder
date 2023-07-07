@@ -1,4 +1,11 @@
 <?php
+require_once "models/categories/CategoriesManager.class.php";
+require_once "models/articles/ArticlesManager.class.php";
+$articlesManager = new ArticlesManager();
+$articlesManager->loadArticles();
+echo "<pre>";
+print_r($articlesManager->getArticles());
+echo "</pre>";
 ob_start() ?>
 
 <div class="control-panel-container">
