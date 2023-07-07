@@ -12,7 +12,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= URL ?>public/css/login.css">
+    <link rel="stylesheet" href="<?= URL ?>public/css/admin.css">
 </head>
 
 <body>

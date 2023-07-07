@@ -3,7 +3,7 @@ $pass = "Alcoyotte6210";
 ob_start() ?>
 
 
-<div class="main-container center">
+<div class="login-container center">
     <img src="<?= URL ?>public/images/logo_rond.png" alt="Logo Domstuder">
 
     <form method="POST" action="<?= URL ?>admin/lv" enctype="multipart/form-data" class="form-container">
