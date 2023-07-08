@@ -5,7 +5,10 @@ define("URL", str_replace("index.php", "", (isset($_SERVER['HTTPS']) ? "https" :
     "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]"));
 
 require_once "controllers/admin/LoginController.controller.php";
+require_once "controllers/admin/ControlPanelController.controller.php";
+
 $loginController = new LoginController;
+$controlController = new ControlPanelController;
 
 try {
     if (empty($_GET['page'])) {
@@ -19,9 +22,9 @@ try {
             case "admin":
                 if (isset($_SESSION['Username'])) {
                     if (empty($url[1])) {
-                        require "views/admin/controlPanel.view.php";
+                        $controlController->showArticles();
                     } else if ($url[1] === "cp") {
-                        require "views/admin/controlPanel.view.php";
+                        $controlController->showArticles();
                     } else if ($url[1] === "dc") {
                         $loginController->disconnect();
                     } else {

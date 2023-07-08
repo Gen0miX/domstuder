@@ -31,7 +31,7 @@ class CategoriesManager extends Model
         $categories = $req->fetchAll(PDO::FETCH_ASSOC);
         $req->closeCursor();
         foreach ($categories as $category) {
-            $c = new Category($category['c_Id'], $category['categorie']);
+            $c = new Category($category['c_id'], $category['categorie']);
             $this->addCategory($c);
         }
     }

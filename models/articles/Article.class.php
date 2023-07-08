@@ -6,14 +6,18 @@ class Article
     private $id;
     private $title;
     private $description;
-    private $catId;
+    private $images;
+    private $imageMain;
+    private $category;
 
-    public function __construct($id, $title, $description, $catId)
+    public function __construct($id, $title, $description, $images, $imageMain, $category)
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-        $this->catId = $catId;
+        $this->images = $images;
+        $this->imageMain = $imageMain;
+        $this->category = $category;
     }
     public function getId()
     {
@@ -39,13 +43,28 @@ class Article
     {
         $this->description = $description;
     }
-    public function getCatId()
+    public function getCategory()
     {
-        return $this->catId;
+        return $this->category;
     }
-    public function setCatId($catId)
+    public function setCategory($category)
     {
-        $this->catId = $catId;
+        $this->category = $category;
     }
-
+    public function getImages()
+    {
+        return $this->images;
+    }
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+    public function getImageMain()
+    {
+        return $this->imageMain;
+    }
+    public function setImageMain($imageMain)
+    {
+        $this->imageMain = $imageMain;
+    }
 }

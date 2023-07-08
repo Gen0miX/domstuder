@@ -1,10 +1,22 @@
 <?php
 require_once "models/Model.class.php";
 require_once "Article.class.php";
+require_once "models/images/ImageManager.class.php";
+require_once "models/categories/CategoriesManager.class.php";
 
 class ArticlesManager extends Model
 {
     private $articles;
+    private $imagesManager;
+    private $categoriesManager;
+
+    public function __construct()
+    {
+        $this->imagesManager = new ImageManager();
+        $this->categoriesManager = new CategoriesManager();
+        $this->imagesManager->loadImages();
+        $this->categoriesManager->loadCategories();
+    }
 
     public function addArticle($article)
     {
@@ -21,7 +33,14 @@ class ArticlesManager extends Model
         $articles = $req->fetchAll(PDO::FETCH_ASSOC);
         $req->closeCursor();
         foreach ($articles as $article) {
-            $a = new Article($article['a_id'], $article['titre'], $article['description'], $article['cat_id']);
+            $a = new Article(
+                $article['a_id'],
+                $article['titre'],
+                $article['description'],
+                $this->imagesManager->loadImagesByArtId($article['a_id']),
+                $this->imagesManager->getImagesMain($article['a_id']),
+                $this->categoriesManager->getCategoryById($article['cat_id'])
+            );
             $this->addArticle($a);
         }
     }
@@ -46,8 +65,8 @@ class ArticlesManager extends Model
         $stmt->closeCursor();
 
         if ($result > 0) {
-            $article = new Article($this->getBdd()->lastInsertId(), $title, $description, $catId);
-            $this->addArticle($article);
+            //    $article = new Article($this->getBdd()->lastInsertId(), $title, $description, $catId);
+            //    $this->addArticle($article);
         }
     }
     public function deleteArticleBd($id)

@@ -12,17 +12,20 @@ class ImageManager extends Model
     {
         $this->imagesMain[] = $image;
     }
-    public function getImagesMain()
+    public function getImagesMain($artId)
     {
-        return $this->imagesMain;
+        for ($i = 0; $i < count($this->images); $i++) {
+            if ($this->images[$i]->getArtId() == $artId && $this->images[$i]->getIsMain() == true) {
+                return $this->images[$i];
+            }
+        }
+        throw new Exception("Il n'y a pas d'image principale !");
     }
-    public function loadImageMain($artId)
+    public function loadImageMain()
     {
         $req = "SELECT * FROM d_img 
-                WHERE a_id = :a_id 
-                AND isMain = true";
+                WHERE isMain = true";
         $stmt = $this->getBdd()->prepare($req);
-        $stmt->bindValue(":a_id", $artId, PDO::PARAM_INT);
         $stmt->execute();
         $imagesMain = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
@@ -48,7 +51,28 @@ class ImageManager extends Model
         }
         throw new Exception("L'image n'existe pas !");
     }
-    public function loadImages($artId)
+    public function getImagesByArtId($artId)
+    {
+        for ($i = 0; $i < count($this->images); $i++) {
+            if ($this->images[$i]->getArtId() == $artId) {
+                $img[] = $this->images[$i];
+            }
+        }
+        return $img;
+    }
+    public function loadImages()
+    {
+        $req = "SELECT * FROM d_img";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->execute();
+        $imagesMain = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        foreach ($imagesMain as $image) {
+            $i = new Image($image['i_id'], $image['path'], $image['a_id'], $image['isMain']);
+            $this->addImage($i);
+        }
+    }
+    public function loadImagesByArtId($artId)
     {
         $req = "SELECT * FROM d_img 
                 WHERE a_id = :a_id";

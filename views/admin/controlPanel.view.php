@@ -4,7 +4,7 @@ require_once "models/articles/ArticlesManager.class.php";
 $articlesManager = new ArticlesManager();
 $articlesManager->loadArticles();
 echo "<pre>";
-print_r($articlesManager->getArticles());
+print_r($articles);
 echo "</pre>";
 ob_start() ?>
 
@@ -16,6 +16,24 @@ ob_start() ?>
             <th>Catégorie</th>
             <th colspan="2">Actions</th>
         </tr>
+
+        <?php
+        for ($i = 0; $i < count($articles); $i++):
+            $artId = $articles[$i]->getId();
+            /*<?= URL ?>public/images/img-art/<?= ?>*/
+            ?>
+            <tr>
+                <td class="col img"><img
+                        src="<?= URL ?>/public/images/img-art/<?= $articles[$i]->getImageMain()->getPath() ?>"></td>
+                <td class="col title">
+                    <?= $articles[$i]->getTitle() ?>
+                </td>
+                <td class="col cat"></td>
+                <td class="col btn modify"></td>
+                <td class="col btn delete"></td>
+            </tr>
+        <?php endfor; ?>
+
     </table>
 </div>
 
