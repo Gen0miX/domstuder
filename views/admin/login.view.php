@@ -4,7 +4,7 @@ ob_start() ?>
 
 
 <div class="login-container center">
-    <img src="<?= URL ?>public/images/logo_rond.png" alt="Logo Domstuder">
+    <img class="logo" src="<?= URL ?>public/images/logo_rond.png" alt="Logo Domstuder">
 
     <form method="POST" action="<?= URL ?>admin/lv" enctype="multipart/form-data" class="form-container">
         <div class="input">

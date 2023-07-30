@@ -10,12 +10,11 @@ class Article
     private $imageMain;
     private $category;
 
-    public function __construct($id, $title, $description, $images, $imageMain, $category)
+    public function __construct($id, $title, $description, $imageMain, $category)
     {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
-        $this->images = $images;
         $this->imageMain = $imageMain;
         $this->category = $category;
     }

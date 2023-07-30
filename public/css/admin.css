@@ -1,13 +1,5 @@
-*,
-::before,
-::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 body {
   background: #da8d00;
-  font-family: "Open Sans", sans-serif;
 }
 h1 {
   margin: 70px 0 50px 0;
@@ -34,7 +26,7 @@ h1 {
   border: 1px solid black;
   border-radius: 10px;
 }
-img {
+img.logo {
   position: absolute;
   top: -48px;
 }
@@ -112,15 +104,21 @@ input.login {
   }
 }
 
-/*------------------------- Control panel Page -------------------------*/
-.control-panel-container {
+/*------------------------- Button -------------------------*/
+
+.round {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.center-icon {
   display: flex;
-  flex-direction: column;
-  margin: 20px auto;
-  width: 95%;
-  padding-top: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  background-color: #ffffff;
-  border: 1px solid black;
-  border-radius: 10px;
+  justify-content: center;
+}
+.modal-body {
+  max-height: 100%;
+}
+.imageModalElement {
+  max-width: 100%;
+  height: auto;
 }

@@ -21,22 +21,41 @@ try {
                 break;
             case "admin":
                 if (isset($_SESSION['Username'])) {
-                    if (empty($url[1])) {
+                    if(empty($url[1])) {
                         $controlController->showArticles();
-                    } else if ($url[1] === "cp") {
-                        $controlController->showArticles();
-                    } else if ($url[1] === "dc") {
-                        $loginController->disconnect();
                     } else {
-                        throw new Exception("La page n'existe pas");
+                        switch ($url[1]) {
+                            case "cp" :
+                                if(empty($url[2])) {
+                                    $controlController->showArticles();
+                                } else {
+                                    switch ($url[2]) {
+                                        case "m" :
+                                            $controlController->modifyArticle($url[3]);
+                                            break;
+                                        default :
+                                        throw new Exception("La page n'existe pas");
+                                    }
+                                }
+                                break;
+                            case "dc" :
+                                $loginController->disconnect();
+                                break;
+                            default :
+                                throw new Exception("La page n'existe pas");
+                       }
                     }
                 } else {
-                    if (empty($url[1])) {
+                    if(empty($url[1])){
                         require "views/admin/login.view.php";
-                    } else if ($url[1] === "lv") {
-                        $loginController->loginValidate();
                     } else {
-                        throw new Exception("La page n'existe pas");
+                        switch ($url[1]) {
+                            case "lv" :
+                                $loginController->loginValidate();
+                                break;
+                            default :
+                                throw new Exception("La page n'existe pas !");
+                        }
                     }
                 }
                 break;

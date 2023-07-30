@@ -5,6 +5,7 @@ require_once "Category.class.php";
 class CategoriesManager extends Model
 {
     private $categories;
+    private $articleCategory;
 
     public function addCategory($category)
     {
@@ -26,7 +27,7 @@ class CategoriesManager extends Model
 
     public function loadCategories()
     {
-        $req = $this->getBdd()->prepare("SELECT * FROM d_cat");
+        $req = $this->getBdd()->prepare("SELECT * FROM d_cat ORDER BY categorie ASC");
         $req->execute();
         $categories = $req->fetchAll(PDO::FETCH_ASSOC);
         $req->closeCursor();

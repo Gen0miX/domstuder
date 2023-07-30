@@ -6,11 +6,21 @@ class ImageManager extends Model
 {
 
     private $images;
+    private $imagesArt;
     private $imagesMain;
 
     public function addImageMain($image)
     {
         $this->imagesMain[] = $image;
+    }
+    public function getImageMainByArtId($artId){
+        for ($i = 0; $i < count($this->imagesMain); $i++) {
+            if ($this->imagesMain[$i]->getArtId() == $artId) {
+                return $this->imagesMain[$i];
+            }
+        }
+        $dummyImg = new Image("0", "dummy-image.jpg", $artId, true);
+        return $dummyImg;
     }
     public function getImagesMain($artId)
     {
@@ -19,9 +29,10 @@ class ImageManager extends Model
                 return $this->images[$i];
             }
         }
-        throw new Exception("Il n'y a pas d'image principale !");
+        $dummyImg = new Image("0", "dummy-image.jpg", $artId, true);
+        return $dummyImg;
     }
-    public function loadImageMain()
+    public function loadImagesMain()
     {
         $req = "SELECT * FROM d_img 
                 WHERE isMain = true";
@@ -51,14 +62,9 @@ class ImageManager extends Model
         }
         throw new Exception("L'image n'existe pas !");
     }
-    public function getImagesByArtId($artId)
+    public function getImagesByArtId()
     {
-        for ($i = 0; $i < count($this->images); $i++) {
-            if ($this->images[$i]->getArtId() == $artId) {
-                $img[] = $this->images[$i];
-            }
-        }
-        return $img;
+        return $this->imagesArt;
     }
     public function loadImages()
     {
@@ -72,10 +78,15 @@ class ImageManager extends Model
             $this->addImage($i);
         }
     }
+    public function addImageArt($image){
+        $this->imagesArt[] = $image;
+    }
     public function loadImagesByArtId($artId)
     {
+        $this->imagesArt = array();
         $req = "SELECT * FROM d_img 
-                WHERE a_id = :a_id";
+                WHERE a_id = :a_id
+                ORDER BY isMain DESC";
         $stmt = $this->getBdd()->prepare($req);
         $stmt->bindValue(":a_id", $artId, PDO::PARAM_INT);
         $stmt->execute();
@@ -83,7 +94,7 @@ class ImageManager extends Model
         $stmt->closeCursor();
         foreach ($images as $image) {
             $i = new Image($image['i_id'], $image['path'], $image['a_id'], $image['isMain']);
-            $this->addImage($i);
+            $this->addImageArt($i);
         }
     }
     public function addImageBD($path, $a_id)
