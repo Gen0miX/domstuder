@@ -1,7 +1,7 @@
 <?php
-require_once "models/articles/ArticlesManager.class.php";
-$articlesManager = new ArticlesManager();
-$articlesManager->loadArticles();
+//require_once "models/articles/ArticlesManager.class.php";
+//$articlesManager = new ArticlesManager();
+//$articlesManager->loadArticles();
 //echo "<pre>";
 //print_r($articles);
 //echo "</pre>";

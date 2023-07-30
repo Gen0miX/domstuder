@@ -30,8 +30,20 @@ try {
                                     $controlController->showArticles();
                                 } else {
                                     switch ($url[2]) {
+                                        //SWITCH CASE POUR PAGE CONTROL PANEL !
                                         case "m" :
-                                            $controlController->modifyArticle($url[3]);
+                                            if(empty($url[4])){
+                                                $controlController->modifyArticle($url[3]);
+                                            } else {
+                                                //SWITCH CASE POUR PAGE MODIFIER !
+                                                switch ($url[4]) {
+                                                    case "d":
+                                                        $controlController->deleteImage($url[5], $url[3]);
+                                                        break;
+                                                    default:
+                                                    throw new Exception("La page n'existe pas");
+                                                }
+                                            }
                                             break;
                                         default :
                                         throw new Exception("La page n'existe pas");

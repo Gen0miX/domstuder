@@ -27,4 +27,15 @@ class ControlPanelController
         $categories = $this->categoriesManager->getCategories();
         require "views/admin/modifyArticle.view.php";
     }
+    public function deleteImage($id, $artId) {
+       $article = $this->articlesManager->getArticleById($artId);
+       $images = $article->getImages();
+       foreach($images as $img) {
+        if($img->getId() == $id) {
+            unset($img);
+        }
+       }
+       $article->setImages($images);
+       require "views/admin/modifyArticle.view.php";
+    }
 }
