@@ -40,6 +40,15 @@ try {
                                                     case "d":
                                                         $controlController->deleteImage($url[5], $url[3]);
                                                         break;
+                                                    case "iv":
+                                                        $controlController->addImages($url[3]);
+                                                        break;
+                                                    case "av":
+                                                        $controlController->modifyArticleValidate($url[3]);
+                                                        break;
+                                                    case "cim":
+                                                        $controlController->changeImageMain($url[5], $url[3]);
+                                                        break;
                                                     default:
                                                     throw new Exception("La page n'existe pas");
                                                 }

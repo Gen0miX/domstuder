@@ -10,12 +10,10 @@ class ArticlesManager extends Model
     private $imagesManager;
     private $categoriesManager;
 
-    public function __construct()
+    public function __construct(ImageManager $imageManager, CategoriesManager $categoryManager)
     {
-        $this->imagesManager = new ImageManager();
-        $this->categoriesManager = new CategoriesManager();
-        $this->imagesManager->loadImagesMain();
-        $this->categoriesManager->loadCategories();
+        $this->imagesManager = $imageManager;
+        $this->categoriesManager = $categoryManager;
     }
 
     public function addArticle($article)
@@ -38,6 +36,7 @@ class ArticlesManager extends Model
                 $article['titre'],
                 $article['description'],
                 $this->imagesManager->getImageMainByArtId($article['a_id']),
+                $this->imagesManager->getImagesByArtId($article['a_id']),
                 $this->categoriesManager->getCategoryById($article['cat_id'])
             );
             $this->addArticle($a);
@@ -97,12 +96,8 @@ class ArticlesManager extends Model
         if ($resultat > 0) {
             $this->getArticleById($id)->setTitle($title);
             $this->getArticleById($id)->setDescription($description);
-            $this->getArticleById($id)->setCatId($catId);
+            $this->getArticleById($id)->setCategory($catId);
 
         }
-    }
-    public function getImagesByArtId($id) {
-        $this->imagesManager->loadImagesByArtId($id);
-        return $this->imagesManager->getImagesByArtId();
     }
 }

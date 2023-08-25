@@ -25,8 +25,20 @@ ob_start() ?>
                             public/images/img-art/<?=$img->getPath()?>
                         </a>
                     </td>
-                    <td class="align-middle"><input type="checkbox" class="form-check-input"
-                            <?php if($img->getIsMain() == true){echo "checked";} ?>>
+                    <td class="align-middle">
+                        <form method="POST" action="<?=$modifyUrl?>/cim/<?= $img->getId() ?>"
+                            onsubmit="return confirm('Voulez-vous rendre cette image principale ?')">
+                            <button
+                                class="btn btn-outline-<?php if($img->getIsMain() == true) {echo "success";} else {echo "primary";} ?> round"
+                                type="submit">
+                                <div class="center-icon">
+                                    <span
+                                        class="material-symbols-outlined <?php if($img->getIsMain() == false) {echo " nofill";}?>">
+                                        favorite
+                                    </span>
+                                </div>
+                            </button>
+                        </form>
                     </td>
                     <td class="align-middle">
                         <form action="<?=$modifyUrl?>/d/<?= $img->getId() ?>" method="POST"
@@ -44,18 +56,19 @@ ob_start() ?>
                 <?php endforeach;?>
             </tbody>
         </table>
-        <form action="">
+        <form method="POST" action="<?=$modifyUrl?>/iv" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">Ajouter des images :</label>
                 <div class="d-flex">
-                    <input class="form-control" type="file" id="formFileMultiple" multiple>
-                    <button class="btn btn-primary">Validation</button>
+                    <input class="form-control" type="file" name="images[]" id="formFileMultiple"
+                        accept="image/x-png, image/gif, image/jpeg" multiple>
+                    <button class="btn btn-success">Envoyer</button>
                 </div>
             </div>
         </form>
     </div>
 
-    <form method="POST" action="" enctype="multipart/form-data">
+    <form method="POST" action="<?=$modifyUrl?>/av" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Titre : </label>
             <input type="text" class="form-control" id="title" name="title" value="<?= $article->getTitle() ?>">
@@ -80,7 +93,7 @@ ob_start() ?>
             </select>
         </div>
         <input type="hidden" name="identifiant" value="<?= $article->getId() ?>">
-        <button type="submit" class="btn btn-primary">Valider</button>
+        <button type="submit" class="btn btn-success">Valider</button>
     </form>
     <div id="testAjax"></div>
 </div>

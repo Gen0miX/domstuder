@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <?php phpinfo(); ?>
     <?= $content ?>
 </body>
 
