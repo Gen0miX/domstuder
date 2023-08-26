@@ -14,6 +14,7 @@ class ControlPanelController
     {
         $this->imagesManager = new ImageManager();
         $this->imagesManager->loadImages();
+        $this->imagesManager->loadImagesTmp();
         $this->categoriesManager = new CategoriesManager();
         $this->categoriesManager->loadCategories();
         $this->articlesManager = new ArticlesManager($this->imagesManager, $this->categoriesManager);
@@ -24,6 +25,61 @@ class ControlPanelController
         $articles = $this->articlesManager->getArticles();
         require "views/admin/controlPanel.view.php";
     }
+
+    // Méthodes pour la page d'ajout d'articles
+    public function addArticle() {
+        $tmpPath = "public/images/img-art/tmp/";
+        if(!is_null($this->imagesManager->getImagesTmp())) {
+            $images = $this->imagesManager->getImagesTmp();
+        } else {
+            $images = array();
+        }
+        $categories = $this->categoriesManager->getCategories();
+        $addUrl = URL . "admin/cp/a";
+        require "views/admin/addArticle.view.php";
+    }
+    public function addArticleValidate() {
+        $artId = $this->articlesManager->addArticleBd($_POST['title'], $_POST['description'], $_POST['category']);
+        $imagesTemp = $this->imagesManager->getImagesTmp() ;
+        foreach($imagesTemp as $imgTmp) {
+            $this->imagesManager->addImageBDWMain($artId."/".$imgTmp->getPath(), $artId, $imgTmp->getIsMain()) ;
+        }
+        $this->imagesManager->deleteAllRecordsImgTmp();
+        $this->moveTmpFiles($artId);
+        //header('Location: '.URL."admin/cp/");
+    }
+    public function addImagesTemp() {
+        if(!empty($_FILES['images']['name'][0])) {
+            $images = $this->reArrayFiles($_FILES['images']);
+            foreach($images as $img) {
+                $rep = "public/images/img-art/tmp/";
+                $fileName = $this->addImage($img, $rep);
+                $path = $fileName;
+                $this->imagesManager->addImageTmpBD($path);
+            }
+        }
+        header('Location: '.URL."admin/cp/a");
+    }
+    public function changeImageTempMain($id) {
+        if($this->imagesManager->getImageTmpById($id)->getIsMain() == true) {
+            header('Location: '.URL."admin/cp/a/");
+        }
+        if(is_null($this->imagesManager->getImageMainTmp())) {
+            $this->imagesManager->setImageTmpMain($id);
+        } else {
+            $oldImageTmpMainId = $this->imagesManager->getImageMainTmp()->getId();
+            $this->imagesManager->updateImageTmpMain($id, $oldImageTmpMainId);
+        }
+        header('Location: '.URL."admin/cp/a/");
+    }
+    public function deleteImageTmp($id) {
+        $this->imagesManager->deleteImageTmp($id);
+        $imageToDelete = $this->imagesManager->getImageTmpById($id);
+        unlink("public/images/img-art/tmp/".$imageToDelete->getPath());
+        header('Location: '.URL."admin/cp/a/");
+    }
+
+    // Méthodes pour la page de modification d'articles
     public function modifyArticle($id){
         $article = $this->articlesManager->getArticleById($id);
         $categories = $this->categoriesManager->getCategories();
@@ -32,7 +88,7 @@ class ControlPanelController
 
     public function modifyArticleValidate($artId) {
         $this->articlesManager->modifyArticleBd($artId, $_POST['title'], $_POST['description'], $_POST['category']);
-        header('Location: '.URL."admin/cp/m/".$artId);
+        header('Location: '.URL."admin/cp");
     }
 
     public function deleteImage($id, $artId) {
@@ -64,6 +120,7 @@ class ControlPanelController
         header('Location: '.URL."admin/cp/m/".$artId);
     }
 
+    //Méthodes générales
     private function addImage($file, $dir)
     {
         if (!isset($file['name']) || empty($file['name']))
@@ -103,5 +160,28 @@ class ControlPanelController
         }
     
         return $file_ary;
+    }
+
+    private function moveTmpFiles($artId) {
+
+        mkdir("public/images/img-art/".$artId);
+        
+        // Get array of all source files
+        $files = scandir("public/images/img-art/tmp/");
+        // Identify directories
+        $source = "public/images/img-art/tmp/";
+        $destination = "public/images/img-art/".$artId."/";
+        // Cycle through all source files
+        foreach ($files as $file) {
+            if (in_array($file, array(".",".."))) continue;
+            // If we copied this successfully, mark it for deletion
+            if (copy($source.$file, $destination.$file)) {
+            $delete[] = $source.$file;
+            }
+        }
+        // Delete all successfully-copied files
+        foreach ($delete as $file) {
+            unlink($file);
+        }
     }
 }
