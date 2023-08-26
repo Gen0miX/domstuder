@@ -54,6 +54,29 @@ try {
                                                 }
                                             }
                                             break;
+                                        case "a" :
+                                            if(empty($url[3])){
+                                                $controlController->addArticle();
+                                            } else {
+                                                //SWITCH CASE POUR PAGE AJOUTER !
+                                                switch ($url[3]) {
+                                                    case "iv" :
+                                                        $controlController->addImagesTemp();
+                                                        break;
+                                                    case "av" :
+                                                        $controlController->addArticleValidate();
+                                                        break;
+                                                    case "cim" :
+                                                        $controlController->changeImageTempMain($url[4]);
+                                                        break;
+                                                    case "d" :
+                                                        $controlController->deleteImageTmp($url[4]);
+                                                        break;
+                                                    default:
+                                                    throw new Exception("La page n'existe pas");
+                                                }
+                                            }
+                                            break;
                                         default :
                                         throw new Exception("La page n'existe pas");
                                     }

@@ -63,8 +63,7 @@ class ArticlesManager extends Model
         $stmt->closeCursor();
 
         if ($result > 0) {
-            //    $article = new Article($this->getBdd()->lastInsertId(), $title, $description, $catId);
-            //    $this->addArticle($article);
+            return $this->getBdd()->lastInsertId();
         }
     }
     public function deleteArticleBd($id)
