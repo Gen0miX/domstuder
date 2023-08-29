@@ -10,11 +10,21 @@ require_once "controllers/admin/ControlPanelController.controller.php";
 $loginController = new LoginController;
 $controlController = new ControlPanelController;
 
+if(!empty($_GET['page'])) {
+    $url = explode("/", filter_var($_GET['page']), FILTER_SANITIZE_URL);
+}
+
+if(isset($_POST['action']) && $_POST['action'] == "back_click") {
+    $postUrl = $_POST['url'];
+    if(strpos($postUrl, 'a') !== false){
+        $this->console_log("BACK BUTTON CLICKED");
+    }
+}
+
 try {
     if (empty($_GET['page'])) {
         require "views/main/home.view.php";
     } else {
-        $url = explode("/", filter_var($_GET['page']), FILTER_SANITIZE_URL);
         switch ($url[0]) {
             case "home":
                 require "views/main/home.view.php";
@@ -38,13 +48,23 @@ try {
                                                 //SWITCH CASE POUR PAGE MODIFIER !
                                                 switch ($url[4]) {
                                                     case "d":
-                                                        $controlController->deleteImage($url[5], $url[3]);
+                                                        if(isset($_POST['delete_main'])) {
+                                                            $controlController->deleteImage($url[5], $url[3]);
+                                                        }else if (isset($_POST['delete_tmp'])) {
+                                                            $controlController->deleteImageTmpModify($url[5], $url[3]);
+                                                        }
                                                         break;
                                                     case "iv":
                                                         $controlController->addImages($url[3]);
                                                         break;
                                                     case "av":
-                                                        $controlController->modifyArticleValidate($url[3]);
+                                                        if(isset($_POST['validate_button'])) {
+                                                            $controlController->modifyArticleValidate($url[3]);
+                                                        }else if (isset($_POST['cancel_button'])) {
+                                                            $controlController->cancelModifyArticle($url[3]);
+                                                        } else if (isset($_POST['delete_button'])) {
+                                                            $controlController->deleteArticle($url[3]);
+                                                        }
                                                         break;
                                                     case "cim":
                                                         $controlController->changeImageMain($url[5], $url[3]);
@@ -64,18 +84,25 @@ try {
                                                         $controlController->addImagesTemp();
                                                         break;
                                                     case "av" :
-                                                        $controlController->addArticleValidate();
+                                                        if(isset($_POST['validate_button'])) {
+                                                            $controlController->addArticleValidate();
+                                                        }else if (isset($_POST['cancel_button'])) {
+                                                            $controlController->cancelAddArticle();
+                                                        }
                                                         break;
                                                     case "cim" :
                                                         $controlController->changeImageTempMain($url[4]);
                                                         break;
                                                     case "d" :
-                                                        $controlController->deleteImageTmp($url[4]);
+                                                        $controlController->deleteImageTmpAdd($url[4]);
                                                         break;
                                                     default:
                                                     throw new Exception("La page n'existe pas");
                                                 }
                                             }
+                                            break;
+                                        case "d" :
+                                            $controlController->deleteArticle($url[3]);
                                             break;
                                         default :
                                         throw new Exception("La page n'existe pas");
@@ -110,4 +137,13 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage();
     // REQUIRE VIEW ERREUR 404
+}
+
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
 }

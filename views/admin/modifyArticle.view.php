@@ -30,7 +30,7 @@ ob_start() ?>
                             onsubmit="return confirm('Voulez-vous rendre cette image principale ?')">
                             <button
                                 class="btn btn-outline-<?php if($img->getIsMain() == true) {echo "success";} else {echo "primary";} ?> round"
-                                type="submit">
+                                type="submit" name="main_img">
                                 <div class="center-icon">
                                     <span
                                         class="material-symbols-outlined <?php if($img->getIsMain() == false) {echo " nofill";}?>">
@@ -43,7 +43,47 @@ ob_start() ?>
                     <td class="align-middle">
                         <form action="<?=$modifyUrl?>/d/<?= $img->getId() ?>" method="POST"
                             onsubmit="return confirm('Voulez-vous vraiment supprimer cet image ?')">
-                            <button class="btn btn-outline-danger round" type="submit">
+                            <button class="btn btn-outline-danger round" name="delete_main" type="submit">
+                                <div class="center-icon">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </div>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach;?>
+                <?php foreach($imagesTmp as $img):?>
+                <tr>
+                    <td class="align-middle">
+                        <img src="<?= URL ?><?= $tmpPath.$img->getPath() ?>" width="80px;">
+                    </td>
+                    <td class="align-middle">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
+                            data-img-path="<?= URL ?><?= $tmpPath.$img->getPath() ?>">
+                            <?= $tmpPath.$img->getPath() ?>
+                        </a>
+                    </td>
+                    <td class="align-middle">
+                        <form method="POST" action="<?=$modifyUrl?>/cim/<?= $img->getId() ?>"
+                            onsubmit="return confirm('Voulez-vous rendre cette image principale ?')">
+                            <button
+                                class="btn btn-outline-<?php if($img->getIsMain() == true) {echo "success";} else {echo "primary";} ?> round"
+                                type="submit" name="main_tmp">
+                                <div class="center-icon">
+                                    <span
+                                        class="material-symbols-outlined <?php if($img->getIsMain() == false) {echo " nofill";}?>">
+                                        favorite
+                                    </span>
+                                </div>
+                            </button>
+                        </form>
+                    </td>
+                    <td class="align-middle">
+                        <form action="<?=$modifyUrl?>/d/<?= $img->getId() ?>" method="POST"
+                            onsubmit="return confirm('Voulez-vous vraiment supprimer cet image ?')">
+                            <button class="btn btn-outline-danger round" name="delete_tmp" type="submit">
                                 <div class="center-icon">
                                     <span class="material-symbols-outlined">
                                         delete
@@ -93,8 +133,11 @@ ob_start() ?>
             </select>
         </div>
         <input type="hidden" name="identifiant" value="<?= $article->getId() ?>">
-        <button type="submit" class="btn btn-success">Valider</button>
+        <button type="submit" name="validate_button" class="btn btn-success">Valider</button>
+        <button type="submit" name="cancel_button" class="btn btn-warning">Annuler</button>
+        <button type="submit" name="delete_button" class="btn btn-danger">Supprimer</button>
     </form>
+
     <div id="testAjax"></div>
 </div>
 

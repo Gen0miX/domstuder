@@ -87,7 +87,8 @@ ob_start() ?>
             </select>
         </div>
         <input type="hidden" name="images" value="<?= $images ?>">
-        <button type="submit" class="btn btn-success">Valider</button>
+        <button type="submit" name="validate_button" class="btn btn-success">Valider</button>
+        <button type="submit" name="cancel_button" class="btn btn-warning">Annuler</button>
     </form>
     <div id="testAjax"></div>
 </div>

@@ -1,5 +1,12 @@
 var URL = "http://localhost/domstuder/";
 
+window.addEventListener("popstate", (event) => {
+ 
+});
+window.onpopstate = (event) => {
+  console.log("popstate");
+};
+
 var btnsDelImg = document.querySelectorAll(".btn.btn-outline-danger.round");
 btnsDelImg.forEach(function (btn) {
   btn.onclick = function () {
@@ -14,3 +21,4 @@ $(document).ready(function () {
     imageElement.setAttribute("src", imgPath);
   });
 });
+

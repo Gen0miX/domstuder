@@ -43,22 +43,33 @@ class ImageManager extends Model
 
     public function getImagesByArtId($artId) {
         $imagesArt = array();
-        for ($i = 0; $i < count($this->images); $i++) {
-            if($this->images[$i]->getArtId() == $artId) {
-                $imagesArt[] = $this->images[$i];
+        if(!is_null($this->images)) {
+            for ($i = 0; $i < count($this->images); $i++) {
+                if($this->images[$i]->getArtId() == $artId) {
+                    $imagesArt[] = $this->images[$i];
+                }
             }
         }
         return $imagesArt;
     }
 
-    public function getImageMainByArtId($artId) {
-        for($i = 0; $i < count($this->images); $i++) {
-            if($this->images[$i]->getArtId() == $artId && $this->images[$i]->getIsMain() == true) {
-                return $this->images[$i];
-            }
+    public function getImageMainByArtIdOrReturnDummy($artId) {
+        if(!is_null($this->getImageMainByArtId($artId))) {
+            return $this->getImageMainByArtId($artId);
         }
         $dummyImg = new Image("0", "dummy-image.jpg", $artId, true);
         return $dummyImg;
+    }
+
+    public function getImageMainByArtId($artId) {
+        if(!is_null($this->images)) {
+            for($i = 0; $i < count($this->images); $i++) {
+                if($this->images[$i]->getArtId() == $artId && $this->images[$i]->getIsMain() == true) {
+                    return $this->images[$i];
+                }
+            }
+        }
+        return null;
     }
 
     public function addImageBD($path, $a_id)
@@ -91,6 +102,36 @@ class ImageManager extends Model
             unset($img);
         }
     }
+    public function deleteImageByArtId($artId) {
+        $req = "DELETE FROM d_img
+                WHERE a_id = :artid";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue("artid", $artId, PDO::PARAM_INT);
+        $result = $stmt -> execute();
+        $stmt->closeCursor();
+
+        if($result > 0) {
+            $images = $this->getImagesByArtId($artId);
+            foreach($images as $img) {
+                unset($img);
+            }
+        }
+    }
+
+    public function setImageMain($id) {
+        $req = "UPDATE d_img
+                set isMain = true
+                WHERE i_id = :id;";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue("id", $id, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        $stmt->closeCursor();
+
+        if($result > 0) {
+            $this->getImageById($id)->setIsMain(true);
+        }
+    }
+
     public function updateImageMain($newMainId, $oldMainId)
     {
         $req = "UPDATE d_img
@@ -110,6 +151,47 @@ class ImageManager extends Model
             $this->getImageById($newMainId)->setIsMain(true);
         }
     }
+
+    public function updateImageMainOldTmp($newMainId, $oldTmpId)
+    {
+        $req = "UPDATE d_img_tmp
+                set isMain = false
+                WHERE i_id = :oldid;
+                UPDATE d_img
+                set isMain = true
+                WHERE i_id = :newid;";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue("oldid", $oldTmpId, PDO::PARAM_INT);
+        $stmt->bindValue("newid", $newMainId, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        $stmt->closeCursor();
+
+        if($result > 0) {
+            $this->getImageTmpById($oldTmpId)->setIsMain(false);
+            $this->getImageById($newMainId)->setIsMain(true);
+        }
+    }
+
+    public function updateImageMainOldMain($newTmpId, $oldMainId)
+    {
+        $req = "UPDATE d_img
+                set isMain = false
+                WHERE i_id = :oldid;
+                UPDATE d_img_tmp
+                set isMain = true
+                WHERE i_id = :newid;";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue("oldid", $oldMainId, PDO::PARAM_INT);
+        $stmt->bindValue("newid", $newTmpId, PDO::PARAM_INT);
+        $result = $stmt->execute();
+        $stmt->closeCursor();
+
+        if($result > 0) {
+            $this->getImageById($oldMainId)->setIsMain(false);
+            $this->getImageTmpById($newTmpId)->setIsMain(true);
+        }
+    }
+    
   
     public function loadImagesTmp()
     {
@@ -173,9 +255,11 @@ class ImageManager extends Model
         }
     }
     public function getImageMainTmp() {
-        for($i = 0; $i < count($this->imagesTemp); $i++) {
-            if( $this->imagesTemp[$i]->getIsMain() == true) {
-                return $this->imagesTemp[$i];
+        if(!is_null($this->imagesTemp)){
+            for($i = 0; $i < count($this->imagesTemp); $i++) {
+                if( $this->imagesTemp[$i]->getIsMain() == true) {
+                    return $this->imagesTemp[$i];
+                }
             }
         }
        return null ;

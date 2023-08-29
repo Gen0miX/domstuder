@@ -18,6 +18,7 @@ class LoginController
 
         if (!is_null($user)) {
             $_SESSION['Username'] = $user->getUsername();
+            session_create_id();
             header('Location: ' . URL . "admin/cp");
         } else {
 

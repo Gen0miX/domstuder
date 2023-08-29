@@ -124,7 +124,7 @@ input.login {
 }
 
 /*------------------------- Button add -------------------------*/
-button.fixed {
+a.fixed {
   position: fixed;
   bottom: 0;
   margin: 0;
@@ -132,17 +132,17 @@ button.fixed {
 }
 /* Media queries button add */
 @media screen and (max-width: 1400px) {
-  button.fixed {
+  a.fixed {
     width: 1084px;
   }
 }
 @media screen and (max-width: 1199px) {
-  button.fixed {
+  a.fixed {
     width: 904px;
   }
 }
 @media screen and (max-width: 991px) {
-  button.fixed {
+  a.fixed {
     width: 772.05px;
   }
 }

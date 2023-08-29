@@ -25,10 +25,18 @@ class ControlPanelController
         $articles = $this->articlesManager->getArticles();
         require "views/admin/controlPanel.view.php";
     }
+    public function deleteArticle($id) {
+        $this->imagesManager->deleteImageByArtId($id);
+        $this->articlesManager->deleteArticleBd($id);
+        $imgFolderPath = "public/images/img-art/".$id ;
+        array_map('unlink', glob("$imgFolderPath/*.*"));
+        rmdir($imgFolderPath);
+        header('Location: '.URL."admin/cp/");
+    }
 
     // Méthodes pour la page d'ajout d'articles
     public function addArticle() {
-        $tmpPath = "public/images/img-art/tmp/";
+        $tmpPath = "public/images/img-art/tmp/".session_id()."/";
         if(!is_null($this->imagesManager->getImagesTmp())) {
             $images = $this->imagesManager->getImagesTmp();
         } else {
@@ -46,13 +54,18 @@ class ControlPanelController
         }
         $this->imagesManager->deleteAllRecordsImgTmp();
         $this->moveTmpFiles($artId);
-        //header('Location: '.URL."admin/cp/");
+        header('Location: '.URL."admin/cp/");
+    }
+    public function cancelAddArticle() {
+        $this->imagesManager->deleteAllRecordsImgTmp();
+        $this->deleteTmpFiles();
+        header('Location: '.URL."admin/cp/");
     }
     public function addImagesTemp() {
         if(!empty($_FILES['images']['name'][0])) {
             $images = $this->reArrayFiles($_FILES['images']);
             foreach($images as $img) {
-                $rep = "public/images/img-art/tmp/";
+                $rep = "public/images/img-art/tmp/".session_id()."/";
                 $fileName = $this->addImage($img, $rep);
                 $path = $fileName;
                 $this->imagesManager->addImageTmpBD($path);
@@ -72,23 +85,55 @@ class ControlPanelController
         }
         header('Location: '.URL."admin/cp/a/");
     }
-    public function deleteImageTmp($id) {
+    public function deleteImageTmpAdd($id) {
         $this->imagesManager->deleteImageTmp($id);
         $imageToDelete = $this->imagesManager->getImageTmpById($id);
-        unlink("public/images/img-art/tmp/".$imageToDelete->getPath());
+        unlink("public/images/img-art/tmp/".session_id()."/".$imageToDelete->getPath());
         header('Location: '.URL."admin/cp/a/");
     }
 
     // Méthodes pour la page de modification d'articles
     public function modifyArticle($id){
+        $tmpPath = "public/images/img-art/tmp/".session_id()."/";
         $article = $this->articlesManager->getArticleById($id);
         $categories = $this->categoriesManager->getCategories();
+        if(isset($_POST['oldImageMainId'])){
+            $_SESSION['firstImgMainId'] = $_POST['oldImageMainId'];
+        }
+        if(!is_null($this->imagesManager->getImagesTmp())) {
+            $imagesTmp = $this->imagesManager->getImagesTmp();
+        } else {
+            $imagesTmp = array();
+        }
         require "views/admin/modifyArticle.view.php";
     }
 
     public function modifyArticleValidate($artId) {
+        
         $this->articlesManager->modifyArticleBd($artId, $_POST['title'], $_POST['description'], $_POST['category']);
+        $imagesTemp = $this->imagesManager->getImagesTmp() ;
+        foreach($imagesTemp as $imgTmp) {
+            $this->imagesManager->addImageBDWMain($artId."/".$imgTmp->getPath(), $artId, $imgTmp->getIsMain()) ;
+        }
+        $this->imagesManager->deleteAllRecordsImgTmp();
+        $this->moveTmpFiles($artId);
         header('Location: '.URL."admin/cp");
+    }
+
+    public function cancelModifyArticle($artId) {
+        
+        if (!is_null($this->imagesManager->getImageMainByArtId($artId))) {
+            $this->imagesManager->updateImageMain($_SESSION['firstImgMainId'], $this->imagesManager->getImageMainByArtId($artId)->getId());
+        }else if (!is_null($this->imagesManager->getImageMainTmp())) {
+            $this->imagesManager->updateImageMainOldTmp($_SESSION['firstImgMainId'], $this->imagesManager->getImageMainTmp()->getId());
+        }
+
+        if(!is_null($this->imagesManager->getImagesTmp())) {
+            $this->imagesManager->deleteAllRecordsImgTmp();
+            $this->deleteTmpFiles();
+        }
+
+        header('Location: '.URL."admin/cp/");
     }
 
     public function deleteImage($id, $artId) {
@@ -97,13 +142,45 @@ class ControlPanelController
        unlink("public/images/img-art/".$imageToDelete->getPath());
        header('Location: '.URL."admin/cp/m/".$artId);
     }
+    public function deleteImageTmpModify($id, $artId) {
+        $this->imagesManager->deleteImageTmp($id);
+        $imageToDelete = $this->imagesManager->getImageTmpById($id);
+        unlink("public/images/img-art/tmp/".session_id()."/".$imageToDelete->getPath());
+        header('Location: '.URL."admin/cp/m/".$artId);
+    }
 
     public function changeImageMain($id, $artId) {
-        if($this->imagesManager->getImageById($id)->getIsMain() == true) {
-            header('Location: '.URL."admin/cp/m/".$artId);
+        if(isset($_POST["main_img"])) {
+            if($this->imagesManager->getImageById($id)->getIsMain() == true) {
+                header('Location: '.URL."admin/cp/m/".$artId);
+            }
+            if(is_null($this->imagesManager->getImageMainByArtId($artId)) && is_null($this->imagesManager->getImageMainTmp())){
+                $this->imagesManager->setImageMain($id);
+            } else {
+                if (!is_null($this->imagesManager->getImageMainByArtId($artId))) {
+                    $oldImageMainId= $this->imagesManager->getImageMainByArtId($artId)->getId();
+                    $this->imagesManager->updateImageMain($id, $oldImageMainId);
+                }else if (!is_null($this->imagesManager->getImageMainTmp())) {
+                    $oldImageMainId = $this->imagesManager->getImageMainTmp()->getId();
+                    $this->imagesManager->updateImageMainOldTmp($id, $oldImageMainId);
+                }
+            }
+        }else if (isset($_POST["main_tmp"])) {
+            if($this->imagesManager->getImageTmpById($id)->getIsMain() == true) {
+                header('Location: '.URL."admin/cp/m/".$artId);
+            }
+            if(is_null($this->imagesManager->getImageMainByArtId($artId)) && is_null($this->imagesManager->getImageMainTmp())){
+                $this->imagesManager->setImageTmpMain($id);
+            } else {
+                if (!is_null($this->imagesManager->getImageMainByArtId($artId))) {
+                    $oldImageMainId= $this->imagesManager->getImageMainByArtId($artId)->getId();
+                    $this->imagesManager->updateImageMainOldMain($id, $oldImageMainId);
+                }else if (!is_null($this->imagesManager->getImageMainTmp())) {
+                    $oldImageMainId = $this->imagesManager->getImageMainTmp()->getId();
+                    $this->imagesManager->updateImageTmpMain($id, $oldImageMainId);
+                }
+            }
         }
-        $oldImageMainId= $this->imagesManager->getImageMainByArtId($artId)->getId();
-        $this->imagesManager->updateImageMain($id, $oldImageMainId);
         header('Location: '.URL."admin/cp/m/".$artId);
     }
 
@@ -111,10 +188,10 @@ class ControlPanelController
         if(!empty($_FILES['images']['name'][0])) {
             $images = $this->reArrayFiles($_FILES['images']);
             foreach($images as $img) {
-                $rep = "public/images/img-art/".$artId."/";
+                $rep = "public/images/img-art/tmp/".session_id()."/";
                 $fileName = $this->addImage($img, $rep);
-                $path = $artId."/".$fileName;
-                $this->imagesManager->addImageBD($path, $artId);
+                $path = $fileName;
+                $this->imagesManager->addImageTmpBD($path);
             }
         }
         header('Location: '.URL."admin/cp/m/".$artId);
@@ -164,12 +241,14 @@ class ControlPanelController
 
     private function moveTmpFiles($artId) {
 
-        mkdir("public/images/img-art/".$artId);
-        
+        if(!file_exists("public/images/img-art/".$artId)){
+            mkdir("public/images/img-art/".$artId);
+        }
+    
         // Get array of all source files
-        $files = scandir("public/images/img-art/tmp/");
+        $files = scandir("public/images/img-art/tmp/".session_id()."/");
         // Identify directories
-        $source = "public/images/img-art/tmp/";
+        $source = "public/images/img-art/tmp/".session_id()."/";
         $destination = "public/images/img-art/".$artId."/";
         // Cycle through all source files
         foreach ($files as $file) {
@@ -183,5 +262,15 @@ class ControlPanelController
         foreach ($delete as $file) {
             unlink($file);
         }
+        rmdir($source);
+    }
+    private function deleteTmpFiles() {
+        $files = glob("public/images/img-art/tmp/".session_id()."/*");
+        foreach ($files as $file) {
+            if(is_file($file)) {
+                unlink($file);
+            }
+        }
+        rmdir("public/images/img-art/tmp/".session_id()."/");
     }
 }

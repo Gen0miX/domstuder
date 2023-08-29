@@ -35,7 +35,7 @@ class ArticlesManager extends Model
                 $article['a_id'],
                 $article['titre'],
                 $article['description'],
-                $this->imagesManager->getImageMainByArtId($article['a_id']),
+                $this->imagesManager->getImageMainByArtIdOrReturnDummy($article['a_id']),
                 $this->imagesManager->getImagesByArtId($article['a_id']),
                 $this->categoriesManager->getCategoryById($article['cat_id'])
             );

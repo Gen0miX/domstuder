@@ -34,20 +34,25 @@ ob_start() ?>
             <td class="align-middle">
                 <?= $articles[$i]->getCategory()->getCategory() ?>
             </td>
-            <td class="align-middle"><a href="<?= URL ?>admin/cp/m/<?=$articles[$i]->getId(); ?>"
-                    class="btn btn-warning">Modifier</a></td>
             <td class="align-middle">
-                <form action="" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ?')">
+                <form action="<?= URL ?>admin/cp/m/<?=$articles[$i]->getId(); ?>" method="POST">
+                <input type="hidden" name="oldImageMainId" value="<?= $articles[$i]->getImageMain()->getId() ?>">
+                <button class="btn btn-warning" type="submit">Modifier</button>
+                </form>
+            </td>
+            <td class="align-middle">
+                <form action="<?= URL ?>admin/cp/d/<?= $articles[$i]->getId() ?>" method="POST"
+                    onsubmit="return confirm('Voulez-vous vraiment supprimer cet article ?')">
                     <button class="btn btn-danger" type="submit">Supprimer</button>
                 </form>
             </td>
         </tr>
         <?php endfor; ?>
-        <form method="POST" action="<?= URL ?>admin/cp/a">
-            <button class="btn btn-success fixed" type="submit">
-                Ajouter
-            </button>
-        </form>
+
+        <a href="<?= URL ?>admin/cp/a" class="btn btn-success fixed">
+            Ajouter
+        </a>
+
     </table>
 </div>
 
