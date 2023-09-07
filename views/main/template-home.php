@@ -7,10 +7,24 @@
     <title>
         <?= $title ?>
     </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@400;500;600;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="<?= URL ?>public/css/home.css">
 </head>
 
+<div class="link-abso">
+    <a href="<?= URL ?>home" class="logo-txt">
+        <img src="public/images/logos/logo_petit.png" alt="petit logo Domstuder" class="s-logo">
+        <h2 class="logo">Domstuder</h2>
+        &nbsp;
+    </a>
+</div>
+
 <body>
-    <?php phpinfo(); ?>
     <?= $content ?>
 </body>
 
