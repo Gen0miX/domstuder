@@ -41,29 +41,34 @@ document.querySelectorAll(".cont-img-showcase").forEach(function (div) {
 document.querySelectorAll(".cont-img-showcase").forEach(function (div) {
   div.addEventListener("mouseleave", function () {
     var cat = div.getAttribute("cat");
-
-    switch (cat) {
-      case "g":
-        updateInfo(
-          "Détails Graphisme",
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
-          cat
-        );
-        break;
-      case "i":
-        updateInfo(
-          "Détails Illustration",
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
-          cat
-        );
-        break;
-      case "p":
-        updateInfo(
-          "Détails Peinture",
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
-          cat
-        );
-        break;
-    }
+    setTimeout(function () {
+      resetTextsShowcase(cat);
+    }, 500);
   });
 });
+
+function resetTextsShowcase(cat) {
+  switch (cat) {
+    case "g":
+      updateInfo(
+        "Détails Graphisme",
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
+        cat
+      );
+      break;
+    case "i":
+      updateInfo(
+        "Détails Illustration",
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
+        cat
+      );
+      break;
+    case "p":
+      updateInfo(
+        "Détails Peinture",
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum reprehenderit sunt earum.",
+        cat
+      );
+      break;
+  }
+}
