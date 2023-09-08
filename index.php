@@ -6,9 +6,11 @@ define("URL", str_replace("index.php", "", (isset($_SERVER['HTTPS']) ? "https" :
 
 require_once "controllers/admin/LoginController.controller.php";
 require_once "controllers/admin/ControlPanelController.controller.php";
+require_once "controllers/main/HomeController.controller.php";
 
 $loginController = new LoginController;
 $controlController = new ControlPanelController;
+$homeController = new HomeController;
 
 if(!empty($_GET['page'])) {
     $url = explode("/", filter_var($_GET['page']), FILTER_SANITIZE_URL);
@@ -23,7 +25,7 @@ if(isset($_POST['action']) && $_POST['action'] == "back_click") {
 
 try {
     if (empty($_GET['page'])) {
-        require "views/main/home.view.php";
+        $homeController->showHome();
     } else {
         switch ($url[0]) {
             case "home":

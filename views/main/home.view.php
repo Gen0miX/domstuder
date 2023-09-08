@@ -1,4 +1,7 @@
 <?php
+//echo "<pre>";
+//print_r($graphics);
+//echo "</pre>";
 ob_start() ?>
 
 <section class="home">
@@ -11,20 +14,20 @@ ob_start() ?>
         <h2 class="sec-title">Graphisme</h2>
         <div class="showcase">
             <div class="col-1">
+                <?php for($i = 1; $i <= 2; $i++) :?>
                 <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/g-mex.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
+                        class="img-showcase">
                 </div>
-                <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/g-balades.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
             <div class="col-2">
+                <?php for($i = 3; $i <= 4; $i++):?>
                 <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/g-lovedetox.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
+                        class="img-showcase">
                 </div>
-                <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/g-affichewestern.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
         </div>
         <div class="details">
@@ -47,20 +50,20 @@ ob_start() ?>
         <h2 class="sec-title">Illustration</h2>
         <div class="showcase">
             <div class="col-1">
+                <?php for($i = 1; $i <= 2; $i++) :?>
                 <div class="cont-img-showcase w">
-                    <img src="<?= URL ?>public/images/i-bateau.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
+                        alt="" class="img-showcase">
                 </div>
-                <div class="cont-img-showcase w">
-                    <img src="<?= URL ?>public/images/i-bolonia.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
             <div class="col-2">
+                <?php for($i = 3; $i <= 4; $i++):?>
                 <div class="cont-img-showcase w">
-                    <img src="<?= URL ?>public/images/i-london.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
+                        alt="" class="img-showcase">
                 </div>
-                <div class="cont-img-showcase w">
-                    <img src="<?= URL ?>public/images/i-venise.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
         </div>
         <div class="details">
@@ -83,20 +86,20 @@ ob_start() ?>
         <h2 class="sec-title">Peinture</h2>
         <div class="showcase">
             <div class="col-1">
+                <?php for($i = 1; $i <= 2; $i++) :?>
                 <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/p-chillon.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
+                        class="img-showcase">
                 </div>
-                <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/p-grand-6.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
             <div class="col-2">
+                <?php for($i = 3; $i <= 4; $i++):?>
                 <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/p-maisons.jpg" alt="" class="img-showcase">
+                    <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
+                        class="img-showcase">
                 </div>
-                <div class="cont-img-showcase">
-                    <img src="<?= URL ?>public/images/p-portrait-huile.jpg" alt="" class="img-showcase">
-                </div>
+                <?php  endfor; ?>
             </div>
         </div>
         <div class="details">

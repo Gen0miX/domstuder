@@ -51,6 +51,19 @@ class ArticlesManager extends Model
         }
         throw new Exception("L'article n'existe pas !");
     }
+    public function getArticlesByCatId($catId) {
+        $articlesByCat[] = array();
+        for($i = 0; $i < count($this->articles); $i++) {
+            if($this->articles[$i]->getCategory()->getId() == $catId) {
+                $articlesByCat[] = $this->articles[$i];
+            }
+        }
+        return $articlesByCat;
+    }
+    public function getLastEntriesArticlesByCatId($catId) {
+        $articlesByCat = $this->getArticlesByCatId($catId);
+        return array_slice($articlesByCat, -4, 4, true);
+    }
     public function addArticleBd($title, $description, $catId)
     {
         $req = "INSERT INTO d_art (titre, description, cat_id)
