@@ -27,6 +27,8 @@
 
 <body>
     <?= $content ?>
+
+    <script src="<?=URL?>public/js/home.js"></script>
 </body>
 
 </html>

@@ -15,7 +15,7 @@ ob_start() ?>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase">
+                <div class="cont-img-showcase" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
                     <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -23,7 +23,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase">
+                <div class="cont-img-showcase" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
                     <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -31,8 +31,9 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title">Détails Graphisme</h2>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum
+            <h2 class="details-title graph">Détails Graphisme</h2>
+            <p class="details-summary graph">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
+                doloremque dolor, odit voluptatum
                 reprehenderit sunt earum.</p>
             <div class="show-more">
                 <a href="" class="a-shm">
@@ -51,7 +52,7 @@ ob_start() ?>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase w">
+                <div class="cont-img-showcase w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
                     <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
                         alt="" class="img-showcase">
                 </div>
@@ -59,7 +60,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase w">
+                <div class="cont-img-showcase w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
                     <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
                         alt="" class="img-showcase">
                 </div>
@@ -67,8 +68,9 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title">Détails Illustration</h2>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum
+            <h2 class="details-title illu">Détails Illustration</h2>
+            <p class="details-summary illu">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque
+                dolor, odit voluptatum
                 reprehenderit sunt earum.</p>
             <div class="show-more">
                 <a href="" class="a-shm aw">
@@ -87,7 +89,7 @@ ob_start() ?>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase">
+                <div class="cont-img-showcase" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
                     <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -95,7 +97,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase">
+                <div class="cont-img-showcase" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
                     <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -103,8 +105,9 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title">Détails Peinture</h2>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque dolor, odit voluptatum
+            <h2 class="details-title paints">Détails Peinture</h2>
+            <p class="details-summary paints">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
+                doloremque dolor, odit voluptatum
                 reprehenderit sunt earum.</p>
             <div class="show-more">
                 <a href="" class="a-shm">

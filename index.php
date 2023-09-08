@@ -28,6 +28,9 @@ try {
         $homeController->showHome();
     } else {
         switch ($url[0]) {
+            case "ajax":
+                $homeController->sendJSONArtTitleAndSummary();
+                break;
             case "home":
                 require "views/main/home.view.php";
                 break;

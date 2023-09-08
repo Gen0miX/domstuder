@@ -26,5 +26,16 @@ class HomeController {
         $paintings = $this->articlesManager->getLastEntriesArticlesByCatId(3);
         require "views/main/home.view.php";
     }
+
+    public function sendJSONArtTitleAndSummary() {
+       $article = $this->articlesManager->getArticleById($_POST['id']);
+       $data = [
+            "h2" => $article->getTitle(),
+            "p" => $article->getDescription(),
+            "cat" => $_POST['cat']
+       ];
+       header('Content-Type: application/json');
+       echo json_encode($data);
+    }
     
 }
