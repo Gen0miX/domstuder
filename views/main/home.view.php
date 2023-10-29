@@ -4,18 +4,45 @@
 //echo "</pre>";
 ob_start() ?>
 
-<section class="home">
+<section class="home" id="section1">
+    <div class="parallax-container">
+        <div class="parallax-row">
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/Amazones.jpg" alt="Affiche Lettres aux Amazones">
+            </div>
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/LDS2.jpg" alt="Flyer Lettre de Soie 2">
+            </div>
+
+        </div>
+        <div class="parallax-row">
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/LDS1.jpg" alt="Flyer Lettre de Soie 1">
+            </div>
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/NewYork.jpg" alt="Affiche Cendrars à New York">
+            </div>
+        </div>
+        <div class="parallax-row">
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/Heidi.jpg" alt="Affiche Heidi">
+            </div>
+            <div class="parallax-image">
+                <img src="<?= URL ?>public/images/home/parallax/Castagnier.jpg" alt="Affiche Abbaye de Castagnier">
+            </div>
+        </div>
+    </div>
     <h1>Graphisme <br /> <span class="orange">Design</span> <br /> Illustration</h1>
 </section>
 
 
-<section class="sec-showcase">
+<section class="sec-showcase" id="section2">
     <div class="section-content">
         <h2 class="sec-title">Graphisme</h2>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
+                <div class="cont-img-showcase graph" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
                     <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -23,7 +50,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
+                <div class="cont-img-showcase graph" art-id="<?= $graphics[$i]->getId() ?>" cat="g">
                     <img src="<?= URL ?>public/images/img-art/<?= $graphics[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -31,10 +58,12 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title graph">Détails Graphisme</h2>
-            <p class="details-summary graph">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
-                doloremque dolor, odit voluptatum
-                reprehenderit sunt earum.</p>
+            <div class="text-animation graph">
+                <h2 class="details-title graph">Détails Graphisme</h2>
+                <p class="details-summary graph">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
+                    doloremque dolor, odit voluptatum
+                    reprehenderit sunt earum.</p>
+            </div>
             <div class="show-more">
                 <a href="" class="a-shm">
                     Voir plus <span class="material-symbols-outlined">
@@ -46,13 +75,13 @@ ob_start() ?>
     </div>
 </section>
 
-<section class="sec-showcase w">
+<section class="sec-showcase w" id="section3">
     <div class="section-content">
         <h2 class="sec-title">Illustration</h2>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
+                <div class="cont-img-showcase illu w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
                     <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
                         alt="" class="img-showcase">
                 </div>
@@ -60,7 +89,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
+                <div class="cont-img-showcase illu w" art-id="<?= $illustrations[$i]->getId() ?>" cat="i">
                     <img src="<?= URL ?>public/images/img-art/<?= $illustrations[$i]->getImageMain()->getPath()?>"
                         alt="" class="img-showcase">
                 </div>
@@ -68,10 +97,13 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title illu">Détails Illustration</h2>
-            <p class="details-summary illu">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur doloremque
-                dolor, odit voluptatum
-                reprehenderit sunt earum.</p>
+            <div class="text-animation illu">
+                <h2 class="details-title illu">Détails Illustration</h2>
+                <p class="details-summary illu">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
+                    doloremque
+                    dolor, odit voluptatum
+                    reprehenderit sunt earum.</p>
+            </div>
             <div class="show-more">
                 <a href="" class="a-shm aw">
                     Voir plus <span class="material-symbols-outlined">
@@ -83,13 +115,13 @@ ob_start() ?>
     </div>
 </section>
 
-<section class="sec-showcase">
+<section class="sec-showcase" id="section4">
     <div class="section-content">
         <h2 class="sec-title">Peinture</h2>
         <div class="showcase">
             <div class="col-1">
                 <?php for($i = 1; $i <= 2; $i++) :?>
-                <div class="cont-img-showcase" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
+                <div class="cont-img-showcase paints" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
                     <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -97,7 +129,7 @@ ob_start() ?>
             </div>
             <div class="col-2">
                 <?php for($i = 3; $i <= 4; $i++):?>
-                <div class="cont-img-showcase" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
+                <div class="cont-img-showcase paints" art-id="<?= $paintings[$i]->getId() ?>" cat="p">
                     <img src="<?= URL ?>public/images/img-art/<?= $paintings[$i]->getImageMain()->getPath()?>" alt=""
                         class="img-showcase">
                 </div>
@@ -105,10 +137,12 @@ ob_start() ?>
             </div>
         </div>
         <div class="details">
-            <h2 class="details-title paints">Détails Peinture</h2>
-            <p class="details-summary paints">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
-                doloremque dolor, odit voluptatum
-                reprehenderit sunt earum.</p>
+            <div class="text-animation paints">
+                <h2 class="details-title paints">Détails Peinture</h2>
+                <p class="details-summary paints">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
+                    doloremque dolor, odit voluptatum
+                    reprehenderit sunt earum.</p>
+            </div>
             <div class="show-more">
                 <a href="" class="a-shm">
                     Voir plus <span class="material-symbols-outlined">
@@ -120,7 +154,7 @@ ob_start() ?>
     </div>
 </section>
 
-<section class="presentation">
+<section class="presentation" id="section5">
     <div class="pres-content">
         <div class="img">
             <img src="<?= URL ?>public/images/home/dom.jpg" alt="Portrait de Dominique Studer" class="dom-img">

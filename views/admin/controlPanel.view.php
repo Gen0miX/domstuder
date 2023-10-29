@@ -18,6 +18,7 @@ ob_start() ?>
         </tr>
 
         <?php
+        if(!empty($articles)):
         for ($i = 0; $i < count($articles); $i++):
             $artId = $articles[$i]->getId();
             /*<?= URL ?>public/images/img-art/<?= ?>*/
@@ -47,7 +48,7 @@ ob_start() ?>
                 </form>
             </td>
         </tr>
-        <?php endfor; ?>
+        <?php endfor; endif; ?>
 
         <a href="<?= URL ?>admin/cp/a" class="btn btn-success fixed">
             Ajouter

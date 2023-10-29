@@ -32,7 +32,7 @@ try {
                 $homeController->sendJSONArtTitleAndSummary();
                 break;
             case "home":
-                require "views/main/home.view.php";
+               $homeController->showHome();
                 break;
             case "admin":
                 if (isset($_SESSION['Username'])) {

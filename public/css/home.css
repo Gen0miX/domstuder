@@ -53,7 +53,7 @@ h2 {
 
 /* Medias Logo */
 @media screen and (max-width: 1300px) {
-  h2.logo {
+  h2.logoH2 {
     display: none;
   }
 }
@@ -74,6 +74,7 @@ h2 {
   position: relative;
   border-bottom: 1px solid black;
 }
+
 h1 {
   font-size: 160px;
   font-family: "Rokkitt", serif;
@@ -81,8 +82,60 @@ h1 {
   margin: 0 60px;
   line-height: 0.65;
 }
+
 .orange {
   color: #f1b647;
+}
+
+.parallax-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.parallax-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.parallax-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* Ajustez les images de la première ligne */
+.parallax-row:nth-child(1) .parallax-image:nth-child(1) {
+  left: 5%;
+}
+
+.parallax-row:nth-child(1) .parallax-image:nth-child(2) {
+  left: 65%;
+  top: 5%;
+}
+
+/* Ajustez les images de la deuxième ligne */
+.parallax-row:nth-child(2) .parallax-image:nth-child(1) {
+  left: 10%;
+  top: 62%;
+}
+
+.parallax-row:nth-child(2) .parallax-image:nth-child(2) {
+  left: 60%;
+  top: 67%;
+}
+
+/* Ajustez les images de la troisième ligne */
+.parallax-row:nth-child(3) .parallax-image:nth-child(1) {
+  left: 5%;
+  top: 132%;
+}
+
+.parallax-row:nth-child(3) .parallax-image:nth-child(2) {
+  left: 70%;
+  top: 137%;
 }
 
 /* Medias Accueil */
@@ -167,10 +220,10 @@ p {
 }
 .icon-media {
   width: 40px;
-  margin-right: 10px;
 }
 
 .icon-link {
+  margin-right: 10px;
   transition: fill 0.3s ease-in-out;
   transition: transform 0.2s ease-in-out;
 }
@@ -211,7 +264,7 @@ p {
 .sec-showcase {
   position: relative;
   display: flex;
-  height: 50vh;
+  height: 70vh;
   min-height: 540px;
   align-items: center;
   text-align: center;
@@ -276,21 +329,24 @@ p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: grayscale(100%);
+  /* filter: grayscale(100%); */
   transition: filter 0.6s ease-in-out;
 }
-
 .cont-img-showcase img:hover {
-  filter: none;
   transform: translate(-50%, -50%);
-  transition: filter transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+}
+
+.bw {
+  filter: grayscale(100%);
+  transition: filter 0.6s ease-in-out;
 }
 
 .show-more {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
-  margin: 70px 10px 0px 0px;
+  margin: 5px 10px 0px 0px;
   font-size: 38px;
   letter-spacing: -2px;
   font-weight: 600;
@@ -311,6 +367,10 @@ p {
 .a-shm.av:hover {
   color: #f1b647;
   transition: color 0.3s ease-in-out;
+}
+
+.text-animation {
+  min-height: 200px;
 }
 
 /* Medias Showcase */

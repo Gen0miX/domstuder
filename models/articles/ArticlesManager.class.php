@@ -30,17 +30,19 @@ class ArticlesManager extends Model
         $req->execute();
         $articles = $req->fetchAll(PDO::FETCH_ASSOC);
         $req->closeCursor();
-        foreach ($articles as $article) {
-            $a = new Article(
-                $article['a_id'],
-                $article['titre'],
-                $article['description'],
-                $this->imagesManager->getImageMainByArtIdOrReturnDummy($article['a_id']),
-                $this->imagesManager->getImagesByArtId($article['a_id']),
-                $this->categoriesManager->getCategoryById($article['cat_id'])
-            );
-            $this->addArticle($a);
-        }
+        if($articles>0) {
+            foreach ($articles as $article) {
+                $a = new Article(
+                    $article['a_id'],
+                    $article['titre'],
+                    $article['description'],
+                    $this->imagesManager->getImageMainByArtIdOrReturnDummy($article['a_id']),
+                    $this->imagesManager->getImagesByArtId($article['a_id']),
+                    $this->categoriesManager->getCategoryById($article['cat_id'])
+                );
+                $this->addArticle($a);
+            }
+        }      
     }
     public function getArticleById($id)
     {
